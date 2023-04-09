@@ -3,9 +3,11 @@ package com.example.useraccountapi.controllers;
 import com.example.useraccountapi.entities.Usuario;
 import com.example.useraccountapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -15,6 +17,20 @@ public class HomeController {
     @Autowired
     UsuarioService usuarioService;
 
+
+    RestTemplate restTemplate;
+
+    @Autowired
+    public HomeController (RestTemplate restTemplate){
+        this.restTemplate=restTemplate;
+
+    }
+
+    @PostMapping("/prueba")
+    public Object getApi(){
+        String url="https://localhost:9000/buscarUsuario";
+        return restTemplate.getForObject(url,Object.class);
+    }
 
     @PostMapping("/crearUsuario")
     public void crearUsuario(@RequestBody Usuario usuario) {
