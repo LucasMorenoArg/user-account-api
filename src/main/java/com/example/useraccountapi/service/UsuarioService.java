@@ -4,16 +4,18 @@ import com.example.useraccountapi.entities.Usuario;
 import com.example.useraccountapi.interfaces.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
     @Service
     public class UsuarioService {
 
-
-
         @Autowired
         private UsuarioRepository repoUsuario;
+
+        @Autowired
+        private RestTemplate clienteRest;
 
         //Crud Jpa
 

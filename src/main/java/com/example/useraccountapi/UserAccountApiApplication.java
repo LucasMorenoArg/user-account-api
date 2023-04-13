@@ -12,9 +12,5 @@ public class UserAccountApiApplication {
 		SpringApplication.run(UserAccountApiApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
 
 }

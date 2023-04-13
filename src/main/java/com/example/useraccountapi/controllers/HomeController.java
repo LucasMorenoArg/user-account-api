@@ -1,8 +1,10 @@
 package com.example.useraccountapi.controllers;
 
+import com.example.useraccountapi.entities.Deuda;
 import com.example.useraccountapi.entities.Usuario;
 import com.example.useraccountapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,18 +14,18 @@ import java.util.Optional;
 public class HomeController {
 
     @Autowired
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    RestTemplate usuarioRestTemplate;
-
+    @Qualifier("clienteRest")
+    private RestTemplate petisoTemplate;
 
 
     @GetMapping("/prueba/{id}")
-    public Object getApi(@PathVariable Integer id){
+    public Deuda getApi(@PathVariable Integer id) {
 
-        String url="http://localhost:9000/buscarUsuario/"+id;
-        return usuarioRestTemplate.getForObject(url,Object.class);
+        String url="http://localhost:9000/buscarDeuda/"+id;
+        return petisoTemplate.getForObject(url, Deuda.class);
     }
 
     @GetMapping("/buscarUsuario/{id}")
@@ -46,5 +48,14 @@ public class HomeController {
     public String borrar(@RequestBody Usuario usuario) {
         usuarioService.borrarUsuario(usuario.getIdUsuario());
         return "Registro eliminado correctamente";
+    }
+
+    @PostMapping("/crear_deuda")
+    public String crearDeuda(@RequestBody Deuda deuda) {
+
+        String url = "http://localhost:9000/crearDeuda";
+        String respuesta = petisoTemplate.postForObject(url, deuda, String.class);
+        System.out.println(respuesta);
+        return respuesta;
     }
 }
